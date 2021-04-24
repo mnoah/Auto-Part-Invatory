@@ -7,6 +7,7 @@ public  class Product {
     private int stockProd;
     private int minProd;
     private int maxProd;
+
     public Product(int idProd, String nameProd, double priceProd, int stockProd, int minProd, int maxProd) {
         this.idProd = idProd;
         this.nameProd = nameProd;
@@ -16,9 +17,6 @@ public  class Product {
         this.maxProd = maxProd;
     }
 
-    public Product() {
-
-    }
 
     public int getIdProd() {
         return idProd;

@@ -52,7 +52,7 @@
             <Button layoutX="377.0" layoutY="24.0" mnemonicParsing="false" onAction="#PartSearchAction" text="Search" />
             <Button layoutX="261.0" layoutY="290.0" mnemonicParsing="false" onAction="#AddPartButtonAction" text="Add" />
             <Button layoutX="305.0" layoutY="290.0" mnemonicParsing="false" onAction="#ModifyPartButtonAction" text="Modify" />
-            <Button layoutX="377.0" layoutY="290.0" mnemonicParsing="false" text="Delete" />
+            <Button layoutX="377.0" layoutY="290.0" mnemonicParsing="false" onAction="#DeletePartAction" text="Delete" />
          </children>
       </AnchorPane>
       <AnchorPane id="outterPartsBoxMain" layoutX="521.0" layoutY="80.0" prefHeight="320.0" prefWidth="482.0" style="-fx-border-radius: 20; -fx-border-color: gray;">

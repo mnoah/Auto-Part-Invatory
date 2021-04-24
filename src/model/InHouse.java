@@ -1,3 +1,4 @@
+/*
 package model;
 
 public class InHouse extends Part {
@@ -21,3 +22,4 @@ public class InHouse extends Part {
         this.machineID = machineID;
     }
 }
+*/

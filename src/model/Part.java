@@ -17,10 +17,6 @@ public  class Part {
         this.maxPart = maxPart;
     }
 
-    public Part() {
-
-    }
-
     public int getIdPart() {
         return idPart;
     }

@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="527.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
+<AnchorPane prefHeight="527.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.AddPart">
    <children>
       <RadioButton layoutX="84.0" layoutY="72.0" mnemonicParsing="false" text="In-House" />
       <RadioButton layoutX="167.0" layoutY="72.0" mnemonicParsing="false" text="Outsourced" />
@@ -17,10 +17,10 @@
       </Label>
       <AnchorPane layoutX="49.0" layoutY="99.0" prefHeight="286.0" prefWidth="414.0">
          <TextField fx:id="AddPartIDTxt" layoutX="45.0" layoutY="22.0" />
-         <TextField layoutX="45.0" layoutY="60.0" />
-         <TextField layoutX="45.0" layoutY="97.0" />
-         <TextField layoutX="45.0" layoutY="143.0" />
-         <TextField layoutX="45.0" layoutY="187.0" />
+         <TextField fx:id="addPartName" layoutX="45.0" layoutY="60.0" />
+         <TextField fx:id="addPartInv" layoutX="45.0" layoutY="97.0" />
+         <TextField fx:id="AddPartPrice" layoutX="45.0" layoutY="143.0" />
+         <TextField fx:id="addPartMax" layoutX="45.0" layoutY="187.0" />
          <TextField layoutX="45.0" layoutY="230.0" />
          <Label layoutX="14.0" layoutY="26.0" text="ID" />
          <Label layoutX="4.0" layoutY="64.0" text="Name" />
@@ -28,7 +28,7 @@
          <Label layoutX="-19.0" layoutY="147.0" prefHeight="17.0" prefWidth="62.0" text="Price/Cost" />
          <Label layoutX="12.0" layoutY="191.0" text="Max" />
          <Label layoutX="207.0" layoutY="191.0" text="Min" />
-         <TextField layoutX="237.0" layoutY="187.0" />
+         <TextField fx:id="addPartMin" layoutX="237.0" layoutY="187.0" />
       </AnchorPane>
    </children>
 </AnchorPane>

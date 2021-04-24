@@ -32,8 +32,8 @@ public class Controller implements Initializable {
     public TableView PartTable;
     public TableView ProdTable;
 
-    private ObservableList<Part> parts = FXCollections.observableArrayList();
-    private ObservableList<Product> products = FXCollections.observableArrayList();
+    public ObservableList<Part> parts = FXCollections.observableArrayList();
+    public ObservableList<Product> products = FXCollections.observableArrayList();
 
 
 
@@ -50,7 +50,15 @@ public class Controller implements Initializable {
     }
 
     public void DeletePartAction(ActionEvent actionEvent) {
+        Part SP = (Part)PartTable.getSelectionModel().getSelectedItem();
+
+        if(SP == null)
+            return;
+
+        parts.remove(SP);
     }
+
+
 
     public void ModifyProductsAction(ActionEvent actionEvent) {
     }
@@ -82,13 +90,7 @@ public class Controller implements Initializable {
         stage.show();
 
     }
-    public void AddAPartCancel(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1050, 500);
-        stage.setScene(scene);
-        stage.show();
-    }
+
 
     public void RadioAddPartInHouse(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddPart.fxml"));
@@ -123,17 +125,10 @@ public class Controller implements Initializable {
         stage.show();
     }
 
-    public void AddPartSavebtn(ActionEvent actionEvent) {
 
-
-
-
-        //products.add(new Product(7, "test", 24000, 5, 1,1));
-
-    }
 
     @Override
-    public void initialize(URL url, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources) {
 
 
         PartTable.setItems(parts);
