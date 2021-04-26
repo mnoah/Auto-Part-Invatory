@@ -27,7 +27,7 @@
             <Label layoutX="6.0" layoutY="101.0" text="Inv" />
             <Label layoutX="-19.0" layoutY="147.0" prefHeight="17.0" prefWidth="62.0" text="Price/Cost" />
             <Label layoutX="12.0" layoutY="191.0" text="Max" />
-            <Label layoutX="-55.0" layoutY="234.0" prefHeight="17.0" prefWidth="99.0" text="Company Name" />
+            <Label fx:id="ComNameAddPart" layoutX="-55.0" layoutY="234.0" prefHeight="17.0" prefWidth="99.0" text="Company Name" />
             <Label layoutX="207.0" layoutY="191.0" text="Min" />
             <TextField layoutX="237.0" layoutY="187.0" />
         </AnchorPane>

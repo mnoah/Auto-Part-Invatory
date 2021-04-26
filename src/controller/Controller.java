@@ -85,7 +85,7 @@ public class Controller implements Initializable {
     public void AddPartButtonAction(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddPart.fxml"));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 450, 500);
+        Scene scene = new Scene(root, 475, 500);
         stage.setScene(scene);
         stage.show();
 
@@ -152,5 +152,8 @@ public class Controller implements Initializable {
 
 
 
+    }
+
+    public void AddAPartCancel(ActionEvent actionEvent) {
     }
 }

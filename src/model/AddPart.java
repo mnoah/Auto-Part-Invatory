@@ -8,8 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.AddPart;
@@ -23,8 +22,23 @@ import controller.Controller;
 
 public class AddPart  implements Initializable {
 
+    //Radio Button
+    public RadioButton AddInHouse;
+    public RadioButton AddOutsourced;
+    public Label addPartMichID;
 
-     TableColumn PartIDProdCol;
+    //Text fields
+    public TextField AddPartIDTxt;
+    public TextField addPartName;
+    public TextField addPartInv;
+    public TextField AddPartPrice;
+    public TextField addPartMax;
+    public TextField AddPartMachId;
+    public TextField addPartMin;
+
+
+    //Part Object
+    TableColumn PartIDProdCol;
      TableColumn PartNameProdCol;
      TableColumn InvProdCol;
      TableColumn PriceProdCol;
@@ -34,6 +48,17 @@ public class AddPart  implements Initializable {
      TableColumn PricePartCol;
      TableView PartTable;
      TableView ProdTable;
+
+     int ID;
+     String Name;
+     double Price;
+     int Inv;
+     int min;
+     int max;
+     String Mechid;
+
+
+
 
     ObservableList<Part> parts = FXCollections.observableArrayList();
      ObservableList<Product> products = FXCollections.observableArrayList();
@@ -54,12 +79,25 @@ public class AddPart  implements Initializable {
 
     public void AddPartSavebtn(ActionEvent actionEvent) throws IOException {
 
+        ID = Integer.parseInt(AddPartIDTxt.getText());
+        Name = addPartName.getText();
+        Price = Double.parseDouble(AddPartPrice.getText());
+        Inv = Integer.parseInt(addPartInv.getText());
+        min = Integer.parseInt(addPartMin.getText());
+        max = Integer.parseInt(addPartMax.getText());
+
+        if (ID = Null){
 
 
+        }
 
+        parts.add(new Part(ID, Name, Price, Inv, min,max));
 
-
-        parts.add(new Part(1, "Wheel", 11, 22, 1,1));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root, 1050, 500);
+        stage.setScene(scene);
+        stage.show();
 
 
 
@@ -73,5 +111,15 @@ public class AddPart  implements Initializable {
         Scene scene = new Scene(root, 1050, 500);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void InHouseOaAddPart(ActionEvent actionEvent) {
+        addPartMichID.setText("Machine ID");
+    }
+
+    public void outAddPartOA(ActionEvent actionEvent) {
+        addPartMichID.setText("Company Name");
+
+
     }
 }
