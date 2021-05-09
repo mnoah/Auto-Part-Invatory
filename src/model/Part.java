@@ -1,12 +1,16 @@
 package model;
 
-public  class Part {
+public abstract class Part {
     private int idPart;
     private String namePart;
     private double pricePart;
     private int stockPart;
     private int minPart;
     private int maxPart;
+
+    public Part(){
+
+    }
 
     public Part(int idPart, String namePart, double pricePart, int stockPart, int minPart, int maxPart) {
         this.idPart = idPart;

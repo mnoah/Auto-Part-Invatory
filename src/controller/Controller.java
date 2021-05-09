@@ -1,4 +1,5 @@
 package controller;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,10 +10,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.AddPart;
-import model.Part;
+import model.InHouse;
+import model.Inventory;
 import model.Product;
 
 import java.io.IOException;
@@ -31,18 +33,24 @@ public class Controller implements Initializable {
     public TableColumn PricePartCol;
     public TableView PartTable;
     public TableView ProdTable;
+    public TextField OnPartSearchTextFld;
+    String partSearchTxt;
 
-    public ObservableList<Part> parts = FXCollections.observableArrayList();
+
+
+
+    //private static ObservableList<Part> parts = FXCollections.observableArrayList();
     public ObservableList<Product> products = FXCollections.observableArrayList();
 
 
 
 
-    public void PartSearchAction(ActionEvent actionEvent) {
-    }
+
+
+
 
     public void ModifyPartButtonAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/AddPart.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartInHouse.fxml"));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root,  450, 500);
         stage.setScene(scene);
@@ -50,20 +58,22 @@ public class Controller implements Initializable {
     }
 
     public void DeletePartAction(ActionEvent actionEvent) {
-        Part SP = (Part)PartTable.getSelectionModel().getSelectedItem();
+        InHouse SP = (InHouse)PartTable.getSelectionModel().getSelectedItem();
 
         if(SP == null)
             return;
 
-        parts.remove(SP);
+        Inventory.deletePart(SP);
     }
 
 
 
     public void ModifyProductsAction(ActionEvent actionEvent) {
+
     }
 
     public void DeleteProductsAction(ActionEvent actionEvent) {
+
     }
 
     public void ProductSearchAction(ActionEvent actionEvent) {
@@ -72,17 +82,12 @@ public class Controller implements Initializable {
     public void AddProductsAction(ActionEvent actionEvent) {
     }
 
-    public void ModifyPartCancel(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1050, 500);
-        stage.setScene(scene);
-        stage.show();
 
-    }
 
 
     public void AddPartButtonAction(ActionEvent actionEvent) throws IOException {
+
+
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddPart.fxml"));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 475, 500);
@@ -125,16 +130,48 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+    public  void addTableItem(){
+
+       // parts.add( new InHouse(1, "Name", 1, 1, 1,1));
+
+
+    }
+
+    private static boolean firstRun= true;
+
+    private void testData(){
+
+        if(!firstRun){
+            return;
+        }
+
+        firstRun = false;
+
+        InHouse TestPart = new InHouse(1, "Wheel", 3.0, 20, 1,20);
+        Inventory.AddPart(TestPart);
+        InHouse TestPart2 = new InHouse(3, "Screw", 1.0, 20, 1,20);
+        Inventory.AddPart(TestPart2);
+        InHouse TestPart3 = new InHouse(1, "Tire", 1.0, 20, 1,20);
+        Inventory.AddPart(TestPart3);
+
+    }
+
+
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+      /*  InHouse P = new InHouse(1, "Wheel", 11, 22, 1,1);
+        Inventory.AddPart(P);*/
+        PartTable.setItems(Inventory.getPart());
 
-        PartTable.setItems(parts);
+
+       //Test Data
         ProdTable.setItems(products);
 
-        PartIDCol.setCellValueFactory(new PropertyValueFactory<>("idPart"));
+        PartIDCol.setCellValueFactory(new PropertyValueFactory<>("IdPart"));
         PartNameCol.setCellValueFactory(new PropertyValueFactory<>("namePart"));
         PricePartCol.setCellValueFactory(new PropertyValueFactory<>("pricePart"));
         InvPartCol.setCellValueFactory(new PropertyValueFactory<>("stockPart"));
@@ -144,16 +181,44 @@ public class Controller implements Initializable {
         PriceProdCol.setCellValueFactory(new PropertyValueFactory<>("priceProd"));
         InvProdCol.setCellValueFactory(new PropertyValueFactory<>("stockProd"));
 
-        parts.add(new Part(1, "Wheel", 11, 22, 1,1));
-        parts.add(new Part(2, "Hub", 24, 4, 1,1));
 
         products.add(new Product(1, "Car", 24000, 5, 1,1));
 
+        testData();
 
-
+        ObservableList<InHouse> partsList = Inventory .getPart() ;
+        PartTable.setItems(partsList);
 
     }
 
-    public void AddAPartCancel(ActionEvent actionEvent) {
+
+    public void PartSearchAction(ActionEvent actionEvent) {
+
+
+        partSearchTxt = OnPartSearchTextFld.getText();
+
+
+        ObservableList<InHouse> partsList = SearchParts(partSearchTxt);
+
+        PartTable.setItems(partsList);
+
     }
+
+        private ObservableList<InHouse> SearchParts(String PartialName){
+            ObservableList<InHouse> PartName = FXCollections.observableArrayList();
+            ObservableList<InHouse> AllParts = Inventory.getPart();
+
+            for(InHouse PS: AllParts){
+                if(PS.getNamePart().contains(PartialName)){
+                    PartName.add(PS);
+                }
+
+            }
+
+
+            return PartName; 
+    }
+
+
+
 }
