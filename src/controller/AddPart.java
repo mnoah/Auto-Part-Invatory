@@ -7,9 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.InHouse;
 import model.Inventory;
@@ -17,6 +15,7 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AddPart extends Controller implements Initializable {
@@ -80,9 +79,14 @@ public class AddPart extends Controller implements Initializable {
         Inv = Integer.parseInt(addPartInv.getText());
         min = Integer.parseInt(addPartMin.getText());
         max = Integer.parseInt(addPartMax.getText());
+        Alert AddPartALT = new Alert(Alert.AlertType.CONFIRMATION);
+        AddPartALT.setTitle("Add Part?");
+        AddPartALT.setHeaderText("Are you sure you want to add part?");
+        Optional<ButtonType> results = AddPartALT.showAndWait();
 
+        if(results.get() == ButtonType.OK){
         InHouse P = new InHouse(autoIdGn, Name, Price, Inv, min,max);
-        Inventory.AddPart(P);
+        Inventory.AddPart(P);}
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -98,11 +102,24 @@ public class AddPart extends Controller implements Initializable {
     }
 
     public void AddAPartCancel(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
-        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 1050, 500);
-        stage.setScene(scene);
-        stage.show();
+        Alert Cancel = new Alert(Alert.AlertType.CONFIRMATION);
+        Cancel.setTitle("Cancel?");
+        Cancel.setHeaderText("Are you sure you want to cancel");
+        Optional<ButtonType> results = Cancel.showAndWait();
+        if(results.get() == ButtonType.OK){
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root, 1050, 500);
+            stage.setScene(scene);
+            stage.show();
+
+        }
+
+
+
+
+
+
     }
 
     public void InHouseOaAddPart(ActionEvent actionEvent) {

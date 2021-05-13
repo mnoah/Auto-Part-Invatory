@@ -8,9 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.InHouse;
@@ -20,6 +18,7 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -51,16 +50,29 @@ public class Controller implements Initializable {
 
 
 
-//duplactat?
+
 
 
     public void DeletePartAction(ActionEvent actionEvent) {
         InHouse SP = (InHouse)PartTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert DeleteConfirm  = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Part");
+        alert.setHeaderText("Delete?");
+        alert.setContentText("Please select a part");
+
+        DeleteConfirm.setTitle("Delete Part?");
+        DeleteConfirm.setContentText("Are you sure you want to delete?");
+
 
         if(SP == null)
-            return;
+            alert.show();
 
-        Inventory.deletePart(SP);
+
+
+        Optional<ButtonType> results = DeleteConfirm.showAndWait();
+        if(results.get() == ButtonType.OK)
+            Inventory.deletePart(SP);
     }
 
 
@@ -117,12 +129,6 @@ public class Controller implements Initializable {
         Scene scene = new Scene(root, 450, 500);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public  void addTableItem(){
-
-       // parts.add( new InHouse(1, "Name", 1, 1, 1,1));
-
     }
 
     private static boolean firstRun= true;
@@ -276,8 +282,7 @@ public class Controller implements Initializable {
     }
 
 
-
-
-
-
+    public void OnExitMain(ActionEvent actionEvent) {
+        System.exit(0);
+    }
 }

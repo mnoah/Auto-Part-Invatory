@@ -87,6 +87,6 @@
             <Button layoutX="377.0" layoutY="290.0" mnemonicParsing="false" onAction="#DeleteProductsAction" text="Delete" />
          </children>
       </AnchorPane>
-      <Button layoutX="915.0" layoutY="434.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="38.0" text="Exit" />
+      <Button layoutX="915.0" layoutY="434.0" mnemonicParsing="false" onAction="#OnExitMain" prefHeight="26.0" prefWidth="38.0" text="Exit" />
    </children>
 </AnchorPane>
