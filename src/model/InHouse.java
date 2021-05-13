@@ -3,18 +3,10 @@ package model;
 public class InHouse extends Part {
     private int machineID;
 
-    public InHouse(){
+    public InHouse(int id, String name, double price, int stock, int min, int max) {
 
-    }
-    public InHouse(int idPart, String namePart, double pricePart, int stockPart, int minPart, int maxPart) {
-       /* setIdPart(getIdPart());
-        setNamePart(getNamePart());
-        setPricePart(getPricePart());
-        setStockPart(getStockPart());
-        setMinPart(getMinPart());
-        setMaxPart(getMaxPart());*/
 
-        super(idPart,namePart, pricePart, stockPart, minPart, maxPart);
+        super(id,name, price, stock, min, max);
         this.machineID = machineID;
     }
 

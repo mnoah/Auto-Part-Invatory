@@ -23,7 +23,7 @@ public class Inventory {
     }
 
     public static void ModPart(InHouse part) {
-        // parts.(part);
+
     }
 
 }

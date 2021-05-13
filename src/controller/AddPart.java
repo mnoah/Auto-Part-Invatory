@@ -38,16 +38,23 @@ public class AddPart extends Controller implements Initializable {
 
 
 
-     int ID;
-     String Name;
-     double Price;
-     int Inv;
-     int min;
-     int max;
-     String Mechid;
+
+
+     public static String Name;
+    public static double Price;
+    public static int Inv;
+    public static int min;
+    public static int max;
+    public static String Mechid;
+     int autoIdGn;
+
+
 
      ObservableList<InHouse> parts = FXCollections.observableArrayList();
      ObservableList<Product> products = FXCollections.observableArrayList();
+
+     public static int IdGen = 1;
+
 
 
 
@@ -60,18 +67,21 @@ public class AddPart extends Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
+
+
+
     }
 
     public void AddPartSavebtn(ActionEvent actionEvent) throws IOException {
 
-        ID = Integer.parseInt(AddPartIDTxt.getText());
+        autoIdGn = IdGen++;
         Name = addPartName.getText();
         Price = Double.parseDouble(AddPartPrice.getText());
         Inv = Integer.parseInt(addPartInv.getText());
         min = Integer.parseInt(addPartMin.getText());
         max = Integer.parseInt(addPartMax.getText());
 
-        InHouse P = new InHouse(ID, Name, Price, Inv, min,max);
+        InHouse P = new InHouse(autoIdGn, Name, Price, Inv, min,max);
         Inventory.AddPart(P);
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
@@ -105,4 +115,11 @@ public class AddPart extends Controller implements Initializable {
 
 
     }
+
+
+    //MODIFY PART
+
+
+
+
 }

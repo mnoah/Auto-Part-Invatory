@@ -1,71 +1,68 @@
 package model;
 
 public abstract class Part {
-    private int idPart;
-    private String namePart;
-    private double pricePart;
-    private int stockPart;
-    private int minPart;
-    private int maxPart;
+    private int id;
+    private String name;
+    private double price;
+    private int stock;
+    private int min;
+    private int max;
 
-    public Part(){
 
+    public Part(int id, String name, double price, int stock, int min, int max) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.min = min;
+        this.max = max;
     }
 
-    public Part(int idPart, String namePart, double pricePart, int stockPart, int minPart, int maxPart) {
-        this.idPart = idPart;
-        this.namePart = namePart;
-        this.pricePart = pricePart;
-        this.stockPart = stockPart;
-        this.minPart = minPart;
-        this.maxPart = maxPart;
+    public int getId() {
+        return id;
     }
 
-    public int getIdPart() {
-        return idPart;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setIdPart(int idPart) {
-        this.idPart = idPart;
+    public String getName() {
+        return name;
     }
 
-    public String getNamePart() {
-        return namePart;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setNamePart(String namePart) {
-        this.namePart = namePart;
+    public double getPrice() {
+        return price;
     }
 
-    public double getPricePart() {
-        return pricePart;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public void setPricePart(double pricePart) {
-        this.pricePart = pricePart;
+    public int getStock() {
+        return stock;
     }
 
-    public int getStockPart() {
-        return stockPart;
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
-    public void setStockPart(int stockPart) {
-        this.stockPart = stockPart;
+    public int getMin() {
+        return min;
     }
 
-    public int getMinPart() {
-        return minPart;
+    public void setMin(int min) {
+        this.min = min;
     }
 
-    public void setMinPart(int minPart) {
-        this.minPart = minPart;
+    public int getMax() {
+        return max;
     }
 
-    public int getMaxPart() {
-        return maxPart;
-    }
-
-    public void setMaxPart(int maxPart) {
-        this.maxPart = maxPart;
+    public void setMax(int max) {
+        this.max = max;
     }
 }

@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.InHouse;
 import model.Inventory;
+import model.Part;
 import model.Product;
 
 import java.io.IOException;
@@ -34,13 +35,15 @@ public class Controller implements Initializable {
     public TableView PartTable;
     public TableView ProdTable;
     public TextField OnPartSearchTextFld;
+    public TextField partModName;
     String partSearchTxt;
 
 
 
 
-    //private static ObservableList<Part> parts = FXCollections.observableArrayList();
+    private static ObservableList<InHouse> parts = FXCollections.observableArrayList();
     public ObservableList<Product> products = FXCollections.observableArrayList();
+    private InHouse ModPart = null;
 
 
 
@@ -48,14 +51,8 @@ public class Controller implements Initializable {
 
 
 
+//duplactat?
 
-    public void ModifyPartButtonAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartInHouse.fxml"));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root,  450, 500);
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public void DeletePartAction(ActionEvent actionEvent) {
         InHouse SP = (InHouse)PartTable.getSelectionModel().getSelectedItem();
@@ -122,18 +119,9 @@ public class Controller implements Initializable {
         stage.show();
     }
 
-    public void ModifyPartINHouse(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartInHouse.fxml"));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 450, 500);
-        stage.setScene(scene);
-        stage.show();
-    }
-
     public  void addTableItem(){
 
        // parts.add( new InHouse(1, "Name", 1, 1, 1,1));
-
 
     }
 
@@ -146,19 +134,25 @@ public class Controller implements Initializable {
         }
 
         firstRun = false;
+        int ID;
+        ID = AddPart.IdGen++;
 
-        InHouse TestPart = new InHouse(1, "Wheel", 3.0, 20, 1,20);
+        InHouse TestPart = new InHouse(ID, "Wheel", 3.0, 20, 1,20);
         Inventory.AddPart(TestPart);
-        InHouse TestPart2 = new InHouse(3, "Screw", 1.0, 20, 1,20);
+        ID = AddPart.IdGen++;
+        InHouse TestPart2 = new InHouse(ID, "Screw", 1.0, 20, 1,20);
         Inventory.AddPart(TestPart2);
-        InHouse TestPart3 = new InHouse(1, "Tire", 1.0, 20, 1,20);
+        ID = AddPart.IdGen++;
+        InHouse TestPart3 = new InHouse(ID, "Tire", 1.0, 20, 1,20);
         Inventory.AddPart(TestPart3);
+
 
     }
 
-
-
-
+    private static Part PS;
+    public static Part GetSP(){
+        return PS;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -168,13 +162,16 @@ public class Controller implements Initializable {
         PartTable.setItems(Inventory.getPart());
 
 
+
+
+
        //Test Data
         ProdTable.setItems(products);
 
-        PartIDCol.setCellValueFactory(new PropertyValueFactory<>("IdPart"));
-        PartNameCol.setCellValueFactory(new PropertyValueFactory<>("namePart"));
-        PricePartCol.setCellValueFactory(new PropertyValueFactory<>("pricePart"));
-        InvPartCol.setCellValueFactory(new PropertyValueFactory<>("stockPart"));
+        PartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        PartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        PricePartCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        InvPartCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
 
         PartIDProdCol.setCellValueFactory(new PropertyValueFactory<>("idProd"));
         PartNameProdCol.setCellValueFactory(new PropertyValueFactory<>("nameProd"));
@@ -182,23 +179,67 @@ public class Controller implements Initializable {
         InvProdCol.setCellValueFactory(new PropertyValueFactory<>("stockProd"));
 
 
-        products.add(new Product(1, "Car", 24000, 5, 1,1));
 
+        parts.add(new InHouse(1,"Name",3,4,5,6));
+
+        products.add(new Product(1, "Car", 24000, 5, 1,1));
         testData();
 
-        ObservableList<InHouse> partsList = Inventory .getPart() ;
+
+
+
+
+
+        ObservableList<InHouse> partsList = Inventory.getPart();
         PartTable.setItems(partsList);
 
+
+
+        PS = ModPart;
+
     }
+
+
+
+    public void ModifyPartButtonAction(ActionEvent actionEvent) throws IOException {
+
+
+        PS = (InHouse)PartTable.getSelectionModel().getSelectedItem();
+
+
+
+
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPart.fxml"));
+        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root,  450, 500);
+        stage.setScene(scene);
+        stage.show();
+
+
+
+    }
+
 
 
     public void PartSearchAction(ActionEvent actionEvent) {
 
 
         partSearchTxt = OnPartSearchTextFld.getText();
-
-
         ObservableList<InHouse> partsList = SearchParts(partSearchTxt);
+        try {
+            if (partsList.size() == 0) {
+                int ID = Integer.parseInt(partSearchTxt);
+                InHouse PID = searchId(ID);
+                if (PID != null) {
+                    partsList.add(PID);
+                }
+            }
+        }
+        catch (NumberFormatException e){
+            //ignore
+        }
+
 
         PartTable.setItems(partsList);
 
@@ -209,15 +250,33 @@ public class Controller implements Initializable {
             ObservableList<InHouse> AllParts = Inventory.getPart();
 
             for(InHouse PS: AllParts){
-                if(PS.getNamePart().contains(PartialName)){
+                if(PS.getName().contains(PartialName)){
                     PartName.add(PS);
                 }
 
             }
 
 
-            return PartName; 
+            return PartName;
     }
+
+    private InHouse searchId(int IdNum){
+        ObservableList<InHouse> AllParts = Inventory.getPart();
+
+        for(int i = 0; i < AllParts.size(); i++){
+            InHouse PID = AllParts.get(i);
+            if(PID.getId() == IdNum){
+                return PID;
+
+            }
+
+        }
+
+        return null;
+    }
+
+
+
 
 
 
