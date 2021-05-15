@@ -38,12 +38,12 @@ import java.util.ResourceBundle;
 
 
 
-        String ID;
+        int ID;
         String Name;
-        String Price;
-        String Inv;
-        String min;
-        String max;
+        double Price;
+        int Inv;
+        int min;
+        int max;
         String Mechid;
 
         private Part Parts;
@@ -71,24 +71,29 @@ import java.util.ResourceBundle;
         }
 
 
-        public void OnModPartSaveBtn(ActionEvent actionEvent) {
+        public void OnModPartSaveBtn(ActionEvent actionEvent) throws IOException {
+        Name = partModName.getText();
+        Price = Double.parseDouble(modPartPrice.getText());
+        Inv = Integer.parseInt(modPartInv.getText());
+        min = Integer.parseInt(modPartMin.getText());
+        max = Integer.parseInt(modPartMax.getText());
 
-       /* Price = Double.parseDouble(AddPartPrice.getText());
-        Inv = Integer.parseInt(addPartInv.getText());
-        min = Integer.parseInt(addPartMin.getText());
-        max = Integer.parseInt(addPartMax.getText());
 
-        InHouse P = new InHouse(autoIdGn, Name, Price, Inv, min,max);
-        Inventory.AddPart(P);
+        InHouse partMod = new InHouse(ID, Name, Price, Inv, min,max);
+        partMod.setId(ID);
+        partMod.setName(Name);
+        partMod.setPrice(Price);
+        partMod.setStock(Inv);
+        partMod.setMin(min);
+        partMod.setMax(max);
+        Inventory.ModPart(, partMod);
+
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/Main_screen.fxml"));
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 1050, 500);
         stage.setScene(scene);
-        stage.show();*/
-
-
-
+        stage.show();
         }
 
         public void ModifyPartCancel(ActionEvent actionEvent) throws IOException {

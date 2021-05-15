@@ -20,9 +20,14 @@ public class Inventory {
     public static void deletePart(InHouse part) {
 
         parts.remove(part);
+
+
     }
 
-    public static void ModPart(InHouse part) {
+
+
+    public static void ModPart(int index, InHouse part) {
+        parts.set(index, part);
 
     }
 

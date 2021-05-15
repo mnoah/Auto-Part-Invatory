@@ -44,6 +44,16 @@ public class Controller implements Initializable {
     public ObservableList<Product> products = FXCollections.observableArrayList();
     private InHouse ModPart = null;
 
+    private static Part PS;
+    public static Part GetSP(){
+        return PS;
+    }
+    public static int modIndex;
+
+    public static int partModIndex() {
+        return modIndex;
+    }
+
 
 
 
@@ -155,10 +165,7 @@ public class Controller implements Initializable {
 
     }
 
-    private static Part PS;
-    public static Part GetSP(){
-        return PS;
-    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -173,27 +180,19 @@ public class Controller implements Initializable {
 
        //Test Data
         ProdTable.setItems(products);
-
+        //Part Table
         PartIDCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         PartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         PricePartCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         InvPartCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
-
+        //Product Table
         PartIDProdCol.setCellValueFactory(new PropertyValueFactory<>("idProd"));
         PartNameProdCol.setCellValueFactory(new PropertyValueFactory<>("nameProd"));
         PriceProdCol.setCellValueFactory(new PropertyValueFactory<>("priceProd"));
         InvProdCol.setCellValueFactory(new PropertyValueFactory<>("stockProd"));
 
-
-
-        parts.add(new InHouse(1,"Name",3,4,5,6));
-
         products.add(new Product(1, "Car", 24000, 5, 1,1));
         testData();
-
-
-
-
 
 
         ObservableList<InHouse> partsList = Inventory.getPart();
@@ -211,6 +210,9 @@ public class Controller implements Initializable {
 
 
         PS = (InHouse)PartTable.getSelectionModel().getSelectedItem();
+        modIndex = get
+                
+
 
 
 
