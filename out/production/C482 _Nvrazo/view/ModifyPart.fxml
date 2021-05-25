@@ -6,8 +6,11 @@
 
 <AnchorPane prefHeight="527.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifyPart">
     <children>
-        <RadioButton layoutX="94.0" layoutY="72.0" mnemonicParsing="false" selected="true" text="In-House" />
-        <RadioButton layoutX="186.0" layoutY="72.0" mnemonicParsing="false" text="Outsourced" />
+        <RadioButton fx:id="modInhouseRadio" layoutX="94.0" layoutY="72.0" mnemonicParsing="false" onAction="#onModInhouse" selected="true" text="In-House">
+         <toggleGroup>
+            <ToggleGroup fx:id="ModPartTG" />
+         </toggleGroup></RadioButton>
+        <RadioButton fx:id="modOutsourcedRadio" layoutX="186.0" layoutY="72.0" mnemonicParsing="false" onAction="#onModOutsourced" text="Outsourced" toggleGroup="$ModPartTG" />
         <Button layoutX="281.0" layoutY="385.0" mnemonicParsing="false" onAction="#OnModPartSaveBtn" text="Save" />
         <Button layoutX="348.0" layoutY="385.0" mnemonicParsing="false" onAction="#ModifyPartCancel" text="Cancel" />
         <Label layoutX="20.0" layoutY="68.0" prefHeight="25.0" prefWidth="89.0" text="Modify Part">
@@ -15,7 +18,7 @@
                 <Font name="System Bold" size="13.0" />
             </font>
         </Label>
-        <AnchorPane layoutX="20.0" layoutY="105.0" prefHeight="286.0" prefWidth="414.0">
+        <AnchorPane layoutX="62.0" layoutY="105.0" prefHeight="286.0" prefWidth="414.0">
             <children>
                 <TextField fx:id="ModPartID" editable="false" layoutX="45.0" layoutY="22.0" promptText="ID Auto Gen" />
                 <TextField fx:id="partModName" layoutX="45.0" layoutY="60.0" />
@@ -28,10 +31,10 @@
                 <Label layoutX="6.0" layoutY="101.0" text="Inv" />
                 <Label layoutX="-19.0" layoutY="147.0" prefHeight="17.0" prefWidth="62.0" text="Price/Cost" />
                 <Label layoutX="12.0" layoutY="191.0" text="Max" />
-                <Label layoutX="-18.0" layoutY="234.0" text="Machine ID" />
                 <Label layoutX="207.0" layoutY="191.0" text="Min" />
                 <TextField fx:id="modPartMin" layoutX="237.0" layoutY="187.0" />
             </children>
         </AnchorPane>
+          <Label fx:id="modPartMichID" alignment="CENTER_RIGHT" layoutY="339.0" prefHeight="17.0" prefWidth="106.0" text="Machine ID" />
     </children>
 </AnchorPane>
