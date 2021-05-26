@@ -232,8 +232,6 @@ public class Controller implements Initializable {
 
 
     public void ModifyPartButtonAction(ActionEvent actionEvent) throws IOException {
-
-
     PS = (InHouse) PartTable.getSelectionModel().getSelectedItem();
     modIndex = Inventory.getPart().indexOf(PS);
 
@@ -264,6 +262,7 @@ public class Controller implements Initializable {
     }
 
     public void updateProd(){
+
         ProdTable.setItems(Inventory.getProduct());
     }
 
