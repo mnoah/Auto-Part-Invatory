@@ -21,6 +21,9 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**The controller for the main screen
+ * RUNTIME ERROR: Had trouble passing and pulling data to and from other classes.
+ * In almost all cases the issue was not matching the FXML(View) data with the data I was trying to pass to the controller which was giving me Nullvalue errors */
 public class Controller implements Initializable {
 
     public TableColumn PartIDProdCol;
@@ -35,6 +38,7 @@ public class Controller implements Initializable {
     public TableView ProdTable;
     public TextField OnPartSearchTextFld;
     public TextField partModName;
+    public TextField prodSearchText;
     String partSearchTxt;
 
 
@@ -47,16 +51,32 @@ public class Controller implements Initializable {
 
 
 
-    public InHouse ModPart;
+    public Part ModPart;
     public static int modIndex;
+
+    /**returns the part array index for modifying parts*/
     public static int partModIndex() {
         return modIndex;
     }
 
     public Product modProd;
     public static int modProdIndex;
+    /**returns the product array index for modifying products*/
     public static int prodModIndex() {
         return modProdIndex;
+    }
+
+    private static Part PS;
+
+    /**returns the selected part for modifying parts*/
+    public static Part GetSP(){
+        return PS;
+    }
+
+    private static Product prodSelec;
+    /**returns the selected product for modifying products*/
+    public static Product GetProdSelc(){
+        return prodSelec;
     }
 
 
@@ -69,7 +89,7 @@ public class Controller implements Initializable {
 
 
 
-
+    /**Button for deleting part from part table*/
     public void DeletePartAction(ActionEvent actionEvent) {
         InHouse SP = (InHouse)PartTable.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -93,22 +113,56 @@ public class Controller implements Initializable {
         if(results.get() == ButtonType.OK)
             Inventory.deletePart(SP);
     }
-
-
-
-
-
+    /**Button for deleting product from product table*/
     public void DeleteProductsAction(ActionEvent actionEvent) {
+        Product SProd = (Product)ProdTable.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Delete Product");
+        alert.setHeaderText("No Product Selected");
+        alert.setContentText("Please select a Product");
+
+        if(!SProd.getProductParts().isEmpty()){
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setTitle("Delete Product");
+            alert2.setHeaderText("Associated Part found");
+            alert2.setContentText("Associated Part found, please remove all parts from product before deleting");
+            alert2.show();
+
+        }else {
+
+            Alert DeleteConfirm = new Alert(Alert.AlertType.CONFIRMATION);
+            DeleteConfirm.setTitle("Delete Product?");
+            DeleteConfirm.setContentText("Are you sure you want to delete?");
+
+
+
+            if (SProd == null) {
+                alert.show();
+                return;
+            }
+
+
+            Optional<ButtonType> results = DeleteConfirm.showAndWait();
+            if (results.get() == ButtonType.OK)
+                Inventory.deleteProduct(SProd);
+        }
+
 
     }
 
 
 
-    public void ProductSearchAction(ActionEvent actionEvent) {
-    }
 
 
 
+
+
+
+
+
+
+
+    /**Button to open add Product screen*/
     public void AddProductsAction(ActionEvent actionEvent) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddProduct.fxml"));
@@ -120,7 +174,7 @@ public class Controller implements Initializable {
 
 
 
-
+    /**Button to open the Add part screen*/
     public void AddPartButtonAction(ActionEvent actionEvent) throws IOException {
 
 
@@ -132,13 +186,7 @@ public class Controller implements Initializable {
 
     }
 
-    public void RaidoModifyOutsourced(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyPartOutsourced.fxml"));
-        Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 450, 500);
-        stage.setScene(scene);
-        stage.show();
-    }
+
 
     private static boolean firstRun= true;
 
@@ -165,6 +213,7 @@ public class Controller implements Initializable {
 
         Product TestProd = new Product(ID2, "Car", 223.2,33,1,60);
         Inventory.AddProduct(TestProd);
+        ID2 = AddPart.IdGen++;
 
 
     }
@@ -174,8 +223,6 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-      /*  InHouse P = new InHouse(1, "Wheel", 11, 22, 1,1);
-        Inventory.AddPart(P);*/
         PartTable.setItems(Inventory.getPart());
 
 
@@ -189,37 +236,42 @@ public class Controller implements Initializable {
         PartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         PricePartCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         InvPartCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
+        ObservableList<Part> partsList = Inventory.getPart();
+        PartTable.setItems(partsList);
+        PS = ModPart;
+        updatePart();
+
+
         //Product Table
         PartIDProdCol.setCellValueFactory(new PropertyValueFactory<>("idProd"));
         PartNameProdCol.setCellValueFactory(new PropertyValueFactory<>("nameProd"));
         PriceProdCol.setCellValueFactory(new PropertyValueFactory<>("priceProd"));
         InvProdCol.setCellValueFactory(new PropertyValueFactory<>("stockProd"));
 
-
-
-
-        ObservableList<Part> partsList = Inventory.getPart();
-        PartTable.setItems(partsList);
-
         ObservableList<Product> prodList = Inventory.getProduct();
         ProdTable.setItems(prodList);
 
-
-        PS = ModPart;
-
         prodSelec = modProd;
-
-        updatePart();
         updateProd();
-
         testData();
 
 
     }
-
+    /**Button to open the modify product screen*/
     public void ModifyProductsAction(ActionEvent actionEvent) throws IOException {
         prodSelec = (Product) ProdTable.getSelectionModel().getSelectedItem();
         modProdIndex = Inventory.getProduct().indexOf(prodSelec);
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Modify Product");
+        alert.setHeaderText("No Product Selected");
+        alert.setContentText("Please select a product");
+
+        if (prodSelec == null) {
+            alert.show();
+            return;
+        }
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/ModifyProduct.fxml"));
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -230,10 +282,11 @@ public class Controller implements Initializable {
     }
 
 
-
+    /**Button to open the modify part screen*/
     public void ModifyPartButtonAction(ActionEvent actionEvent) throws IOException {
-    PS = (InHouse) PartTable.getSelectionModel().getSelectedItem();
+    PS = (Part) PartTable.getSelectionModel().getSelectedItem();
     modIndex = Inventory.getPart().indexOf(PS);
+
 
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle("Modify Part");
@@ -255,30 +308,46 @@ public class Controller implements Initializable {
 
 
     }
-
+    /**Updates the part table with modified part*/
     public void updatePart(){
         PartTable.setItems(Inventory.getPart());
 
     }
-
+    /**Updates the product table with modified product*/
     public void updateProd(){
 
         ProdTable.setItems(Inventory.getProduct());
     }
 
+public String prodSearch;
 
+    /**On Action for product search*/
+    public void ProductSearchAction(ActionEvent actionEvent) {
+        Alert alertProd = new Alert(Alert.AlertType.INFORMATION);
+        alertProd.setTitle("Search Product");
+        alertProd.setHeaderText("No Product found");
+        alertProd.setContentText("Please try again");
 
-    private static Part PS;
-    public static Part GetSP(){
-        return PS;
+        prodSearch = prodSearchText.getText();
+        ObservableList<Product> prodlist = SearchProd(prodSearch);
+        try{
+            if(prodlist.size() == 0){
+                int ID = Integer.parseInt(prodSearch);
+                Product PID = searchProdId(ID);
+                if (PID != null) {
+                    prodlist.add(PID);
+                }
+            }
+        }catch (NumberFormatException e){
+            alertProd.show();
+        }
+
+        ProdTable.setItems(prodlist);
+
     }
-
-    private static Product prodSelec;
-    public static Product GetProdSelc(){
-        return prodSelec;
-    }
-
+    /**On Action for part search*/
     public void PartSearchAction(ActionEvent actionEvent) {
+
         partSearchTxt = OnPartSearchTextFld.getText();
         ObservableList<Part> partsList = SearchParts(partSearchTxt);
         try {
@@ -291,7 +360,7 @@ public class Controller implements Initializable {
             }
         }
         catch (NumberFormatException e){
-            //ignore
+
         }
 
 
@@ -303,7 +372,7 @@ public class Controller implements Initializable {
            alert.showAndWait();}
 
     }
-
+    /**checks search input for matching strings or part of string*/
         private ObservableList<Part> SearchParts(String PartialName){
             ObservableList<Part> PartName = FXCollections.observableArrayList();
             ObservableList<Part> AllParts = Inventory.getPart();
@@ -318,7 +387,7 @@ public class Controller implements Initializable {
 
             return PartName;
     }
-
+    /**Checks input for matching ID int*/
     private Part searchId(int IdNum){
         ObservableList<Part> AllParts = Inventory.getPart();
 
@@ -335,6 +404,38 @@ public class Controller implements Initializable {
     }
 
 
+    /**checks search input for matching strings or part of string*/
+    private ObservableList<Product> SearchProd(String PartialName){
+        ObservableList<Product> ProdName = FXCollections.observableArrayList();
+        ObservableList<Product> AllProd = Inventory.getProduct();
+
+        for(Product PS: AllProd){
+            if(PS.getNameProd().contains(PartialName)){
+                ProdName.add(PS);
+            }
+
+        }
+
+
+        return ProdName;
+    }
+    /**Checks input for matching product ID int*/
+    private Product searchProdId(int IdNum){
+        ObservableList<Product> AllProd = Inventory.getProduct();
+
+        for(int i = 0; i < AllProd.size(); i++){
+            Product PID = AllProd.get(i);
+            if(PID.getIdProd() == IdNum){
+                return PID;
+
+            }
+
+        }
+
+        return null;
+    }
+
+    /**On action for exit button, closes program*/
     public void OnExitMain(ActionEvent actionEvent) {
         System.exit(0);
     }

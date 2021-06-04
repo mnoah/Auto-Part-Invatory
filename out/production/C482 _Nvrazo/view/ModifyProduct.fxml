@@ -45,5 +45,7 @@
         <Button layoutX="749.0" layoutY="535.0" mnemonicParsing="false" onAction="#RemoveModAssPart" text="Remove Associated Part" />
         <Button layoutX="749.0" layoutY="572.0" mnemonicParsing="false" onAction="#OnModProdSavebtn" text="Save" />
         <Button layoutX="836.0" layoutY="572.0" mnemonicParsing="false" onAction="#OnModProdCancelbtn" text="Cancel" />
+      <TextField fx:id="modProdSrchTxt" layoutX="747.0" layoutY="23.0" />
+      <Button layoutX="672.0" layoutY="23.0" mnemonicParsing="false" onAction="#modProdSrch" text="Search" />
     </children>
 </AnchorPane>

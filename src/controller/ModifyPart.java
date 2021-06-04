@@ -32,9 +32,12 @@ import java.util.ResourceBundle;
         public TextField modPartMax;
         public TextField ModPartMechID;
         public TextField modPartMin;
+
+
+
         private boolean outsourcedRadio;
-        private RadioButton modInhouseRadio;
-        private RadioButton modOutsourcedRadio;
+        public RadioButton modInhouseRadio;
+        public RadioButton modOutsourcedRadio;
 
 
 
@@ -63,6 +66,7 @@ import java.util.ResourceBundle;
         modPartMin.setText(String.valueOf(Parts.getMin()));
         modPartMax.setText(String.valueOf(Parts.getMax()));
 
+
         if(Parts instanceof InHouse){
             modPartMichID.setText("Machine ID");
             ModPartMechID.setText(Integer.toString(((InHouse) Parts).getMachineID()));
@@ -75,16 +79,13 @@ import java.util.ResourceBundle;
 
 
 
-
-
-
-
         }
 
 
         public void OnModPartSaveBtn(ActionEvent actionEvent) throws IOException {
 
          try {
+             ID = Integer.parseInt(ModPartID.getText());
              Name = partModName.getText();
              Price = Double.parseDouble(modPartPrice.getText());
              Inv = Integer.parseInt(modPartInv.getText());
@@ -120,28 +121,40 @@ import java.util.ResourceBundle;
                  partMod.setStock(Inv);
                  partMod.setMin(min);
                  partMod.setMax(max);
-                 Inventory.ModPart(modIndex, partMod);
+
+
+
                  Mechid = Integer.parseInt(ModPartMechID.getText());
                  partMod.setMachineID(Mechid);
 
                  Alert AddPartALT = new Alert(Alert.AlertType.CONFIRMATION);
                  AddPartALT.setTitle("Add Part?");
-                 AddPartALT.setHeaderText("Are you sure you want to add part?");
+                 AddPartALT.setHeaderText("Are you sure you want to Modify part?");
                  Optional<ButtonType> results = AddPartALT.showAndWait();
                  if (results.get() == ButtonType.OK) {
-                     Inventory.AddPart(partMod);
+                     Inventory.ModPart(modIndex, partMod);
                  }
 
              } else {
                  Outsoursed outAdd = new Outsoursed(ID, Name, Price, Inv, min, max);
+                 outAdd.setId(ID);
+                 outAdd.setName(Name);
+                 outAdd.setPrice(Price);
+                 outAdd.setStock(Inv);
+                 outAdd.setMin(min);
+                 outAdd.setMax(max);
+
+                 //Inventory.AddPart(modIndex, outAdd);
+
                  compName = ModPartMechID.getText();
                  outAdd.setCompName(compName);
+
                  Alert AddPartALT = new Alert(Alert.AlertType.CONFIRMATION);
                  AddPartALT.setTitle("Add Part?");
-                 AddPartALT.setHeaderText("Are you sure you want to add part?");
+                 AddPartALT.setHeaderText("Are you sure you want to Modify part?");
                  Optional<ButtonType> results = AddPartALT.showAndWait();
                  if (results.get() == ButtonType.OK) {
-                     Inventory.AddPart(outAdd);
+                     Inventory.ModPart(modIndex, outAdd);
                  }
              }
 
